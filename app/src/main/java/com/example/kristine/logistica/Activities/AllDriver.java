@@ -59,6 +59,7 @@ public class AllDriver extends AppCompatActivity {
     private void initListView()
     {
         listView= (ListView) findViewById(R.id.listView_all_driver);
+
     }
 
     private void initDB() {

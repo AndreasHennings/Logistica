@@ -16,7 +16,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 /**
- * Created by Kristine on 06.08.2016.
+ * Created by Sarah on 06.08.2016.
  */
 public class DriverAdapter extends ArrayAdapter<Driver> {
 

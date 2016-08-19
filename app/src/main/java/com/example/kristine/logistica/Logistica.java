@@ -95,10 +95,18 @@ public class Logistica extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent intent= new Intent(Logistica.this, DriverActivity.class);
-                intent.putExtra("driver_id",Integer.parseInt(driverID.getText().toString()));
-                driverID.setText("");
-                startActivity(intent);
+                int id=Integer.parseInt(driverID.getText().toString());
+                if (id>0 && id<=db.getAllDriver().size())
+                {
+                    Intent intent = new Intent(Logistica.this, DriverActivity.class);
+                    intent.putExtra("driver_id", id);
+                    startActivity(intent);
+                }
+                else
+                {
+                    driverID.setText("");
+
+                }
             }
 
         });

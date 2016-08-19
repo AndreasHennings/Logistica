@@ -14,7 +14,7 @@ import com.example.kristine.logistica.R;
 import java.util.ArrayList;
 
 /**
- * Created by Kristine on 06.08.2016.
+ * Created by Sarah on 06.08.2016.
  */
 public class TaskAdapter extends ArrayAdapter<Task> {
 
