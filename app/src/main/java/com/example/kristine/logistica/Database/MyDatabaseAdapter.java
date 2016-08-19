@@ -135,19 +135,20 @@ public class MyDatabaseAdapter
 
     public void updateDriver(Driver driver)
     {
+        open();
         String update = driver.getId() + "=?";
         ContentValues contentValues = new ContentValues();
         contentValues.put(DRIVER_ID, driver.getId());
         contentValues.put(DRIVER_NAME, driver.getName());
         contentValues.put(DRIVER_POSITION_X, driver.getX_pos());
         contentValues.put(DRIVER_POSITION_Y, driver.getY_pos());
-        open();
         db.update(DRIVER_TABLE, contentValues, update, new String[]{String.valueOf(driver.getId())});
         close();
     }
 
     public void updateTask(Task task)
     {
+        open();
         String update = task.getId() + "=?";
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASK_ID, task.getId());
@@ -158,7 +159,6 @@ public class MyDatabaseAdapter
         contentValues.put(DATE, task.getDate());
         contentValues.put(TIME, task.getTime());
         contentValues.put(STATE, task.getStatus());
-        open();
         db.update(TASK_TABLE, contentValues, update, new String[]{String.valueOf(task.getId())});
         close();
     }
@@ -191,7 +191,7 @@ public class MyDatabaseAdapter
         return nearestTask;
     }
 
-    //code für das überprüfen der id bei der registrierung des drivers
+
 
     public boolean idInDatabase(int id)
     {

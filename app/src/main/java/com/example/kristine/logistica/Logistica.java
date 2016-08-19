@@ -59,7 +59,7 @@ public class Logistica extends AppCompatActivity
     {
         ArrayList<Task> allTasks = db.getAllTask();
         if (allTasks.size() == 0) {
-            db.addTask(0, 0, 3, 2, "12.08.2016", "14:04");
+            db.addTask(1, 4, 3, 2, "12.08.2016", "14:04");
             db.addTask(5, 3, 5, 6, "16.08.2016", "20:34");
             db.addTask(3, 5, 5, 2, "16.08.2016", "21:20");
             db.addTask(1, 2, 3, 33, "17.08.2016", "10:00");
