@@ -30,8 +30,6 @@ public class DriverActivity extends AppCompatActivity
     private Button button;
     private RelativeLayout layout;
     private Driver currentDriver;
-
-
     private Task task;
     private MyDatabaseAdapter db;
 
@@ -40,9 +38,18 @@ public class DriverActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver);
+        initUI();
         initComponents();
         setClickListener();
+    }
 
+    private void initUI()
+    {
+        source = (TextView) findViewById(R.id.source);
+        target = (TextView) findViewById(R.id.target);
+        id = (TextView) findViewById(R.id.id);
+        button = (Button) findViewById(R.id.button);
+        layout = (RelativeLayout) findViewById(R.id.layout);
     }
 
     private void setClickListener()
@@ -82,6 +89,7 @@ public class DriverActivity extends AppCompatActivity
         currentDriver.setX_pos(task.getTarget_x());
         db.updateDriver(currentDriver);
         button.setText("THANK YOU FOR DELIVERY!");
+        showTask();
     }
 
     private void driverAcceptsTask()
@@ -90,21 +98,15 @@ public class DriverActivity extends AppCompatActivity
         task.updateStatus();
         db.updateTask(task);
         button.setText("CLICK WHEN DELIVERED");
+        showTask();
     }
 
     private void initComponents()
     {
-        source = (TextView) findViewById(R.id.source);
-        target = (TextView) findViewById(R.id.target);
-        id = (TextView) findViewById(R.id.id);
-        button = (Button) findViewById(R.id.button);
-        layout = (RelativeLayout) findViewById(R.id.layout);
-
         db = new MyDatabaseAdapter(this);
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
         int driverId = (int) extra.get("driver_id");
-
         currentDriver = null;
         ArrayList<Driver> allDrivers = db.getAllDriver();
 
@@ -116,6 +118,7 @@ public class DriverActivity extends AppCompatActivity
                 break;
             }
         }
+
         task = db.getNearestTask(currentDriver);
         if (task==null)
         {
@@ -151,7 +154,12 @@ public class DriverActivity extends AppCompatActivity
         {
             if (menuId == R.id.new_task)
             {
-                task = db.getNearestTask(currentDriver);
+
+                while (task.getStatus()!=0)
+                {
+                    db.getNearestTask(currentDriver);
+                }
+
                 layout.setBackgroundColor(getResources().getColor(R.color.to_pick_up));
                 button.setEnabled(true);
                 button.setText("CLICK TO ACCEPT");
