@@ -136,7 +136,7 @@ public class MyDatabaseAdapter
     public void updateDriver(Driver driver)
     {
         open();
-        String update = driver.getId() + "=?";
+        String update = DRIVER_ID + "=?";
         ContentValues contentValues = new ContentValues();
         contentValues.put(DRIVER_ID, driver.getId());
         contentValues.put(DRIVER_NAME, driver.getName());
@@ -149,7 +149,7 @@ public class MyDatabaseAdapter
     public void updateTask(Task task)
     {
         open();
-        String update = task.getId() + "=?";
+        String update = TASK_ID + "=?";
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASK_ID, task.getId());
         contentValues.put(SOURCE_X, task.getSource_x());
@@ -161,6 +161,15 @@ public class MyDatabaseAdapter
         contentValues.put(STATE, task.getStatus());
         db.update(TASK_TABLE, contentValues, update, new String[]{String.valueOf(task.getId())});
         close();
+    }
+
+    public int deleteTask(Task task)
+    {
+        String whereClause = TASK_ID+"=?";
+        open();
+        db.delete(TASK_TABLE, whereClause, new String[]{String.valueOf(task.getId())});
+        close();
+        return 0;
     }
 
     public Task getNearestTask(Driver driver)
@@ -187,6 +196,10 @@ public class MyDatabaseAdapter
                     nearestTask = allTasks.get(i);
                 }
             }
+        }
+        if (nearestTask!=null)
+        {
+            int a = deleteTask(nearestTask);
         }
         return nearestTask;
     }

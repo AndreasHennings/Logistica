@@ -32,7 +32,6 @@ public class DriverActivity extends AppCompatActivity
     private Driver currentDriver;
     private Task task;
     private MyDatabaseAdapter db;
-    int driverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,19 +45,63 @@ public class DriverActivity extends AppCompatActivity
 
     private void initUI()
     {
-        id = (TextView) findViewById(R.id.id);
         source = (TextView) findViewById(R.id.source);
         target = (TextView) findViewById(R.id.target);
-
+        id = (TextView) findViewById(R.id.id);
         button = (Button) findViewById(R.id.button);
         layout = (RelativeLayout) findViewById(R.id.layout);
     }
+
+    private void setClickListener()
+    {
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (task.getStatus() == 0)
+                {
+                    layout.setBackgroundColor(getResources().getColor(R.color.in_process));
+                    task.updateStatus();
+                    db.updateTask(task);
+                    button.setText("CLICK WHEN DELIVERED");
+                    showTask();
+                }
+
+                else if (task.getStatus() == 1)
+                {
+                    layout.setBackgroundColor(getResources().getColor(R.color.delivered));
+                    task.updateStatus();
+                    db.updateTask(task);
+                    currentDriver.setY_pos(task.getTarget_y());
+                    currentDriver.setX_pos(task.getTarget_x());
+                    db.updateDriver(currentDriver);
+                    button.setText("THANK YOU FOR DELIVERY!");
+                    showTask();
+
+                }
+
+                else if (task.getStatus() == 2)
+                {
+                    button.setEnabled(false);
+                }
+
+            }
+
+
+        });
+    }
+
+
+
+
+
     private void initComponents()
     {
         db = new MyDatabaseAdapter(this);
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
-        driverId = (int) extra.get("driver_id");
+        int driverId = (int) extra.get("driver_id");
         currentDriver = null;
         ArrayList<Driver> allDrivers = db.getAllDriver();
 
@@ -72,87 +115,16 @@ public class DriverActivity extends AppCompatActivity
         }
 
         task = db.getNearestTask(currentDriver);
-        if (task==null || task.getStatus()==2)
+        if (task==null)
         {
             button.setText("SORRY NO MORE TASKS!");
-            try
-            {
-                Thread.sleep(3000);
-            }
-            catch (Exception e)
-            {
-                finish();
-            }
-            finish();
-
+            button.setEnabled(false);
         }
         else
         {
             showTask();
         }
     }
-
-    private void setClickListener()
-    {
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (task.getStatus() == 0)
-                {
-                    driverAcceptsTask();
-                }
-
-                else if (task.getStatus() == 1)
-                {
-                    finishedTask();
-                }
-
-            }
-        });
-    }
-
-    private void driverAcceptsTask()
-    {
-        layout.setBackgroundColor(getResources().getColor(R.color.in_process));
-
-        task.updateStatus();
-        db.updateTask(task);
-
-        button.setText("CLICK WHEN DELIVERED");
-        showTask();
-    }
-
-    private void finishedTask()
-    {
-        layout.setBackgroundColor(getResources().getColor(R.color.delivered));
-
-        task.updateStatus();
-        db.updateTask(task);
-
-        currentDriver.setY_pos(task.getTarget_y());
-        currentDriver.setX_pos(task.getTarget_x());
-
-        db.updateDriver(currentDriver);
-
-        showTask();
-        task=null;
-        currentDriver=null;
-        button.setText("THANK YOU FOR DELIVERY!");
-
-        try
-        {
-            Thread.sleep(3000);
-        }
-        catch (Exception e)
-        {
-            finish();
-        }
-        finish();
-
-    }
-
 
     private void showTask()
     {
@@ -161,7 +133,6 @@ public class DriverActivity extends AppCompatActivity
         target.setText("Delivery-adress: X:" + task.getTarget_x() + "  Y:" + task.getTarget_y());
     }
 
-    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -174,25 +145,27 @@ public class DriverActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int menuId = item.getItemId();
-        if (task.getStatus() ==2 )
+        if (task.getStatus() == 2)
         {
             if (menuId == R.id.new_task)
             {
-                task=null;
                 task=db.getNearestTask(currentDriver);
-                if (task==null || task.getStatus()==2)
+                if (task==null)
                 {
-                    button.setText("SORRY NO MORE TASKS!");
+                    button.setText("Sorry no more tasks!");
+                    item.setEnabled(false);
                     button.setEnabled(false);
                 }
                 else
                 {
+
+                    showTask();
                     layout.setBackgroundColor(getResources().getColor(R.color.to_pick_up));
                     button.setEnabled(true);
                     button.setText("CLICK TO ACCEPT");
-                    showTask();
                 }
             }
+
         }
 
         else
@@ -202,7 +175,6 @@ public class DriverActivity extends AppCompatActivity
         }
         return true;
     }
-    */
 
 
 }

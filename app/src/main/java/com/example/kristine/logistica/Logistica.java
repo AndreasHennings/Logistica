@@ -55,11 +55,11 @@ public class Logistica extends AppCompatActivity
     {
         ArrayList<Task> allTasks = db.getAllTask();
         if (allTasks.size() == 0) {
-            db.addTask(1, 4, 3, 2, "12.08.2016", "14:04");
-            db.addTask(5, 3, 5, 6, "16.08.2016", "20:34");
-            db.addTask(3, 5, 5, 2, "16.08.2016", "21:20");
-            db.addTask(1, 2, 3, 33, "17.08.2016", "10:00");
-            db.addTask(0, 5, 8, 4, "17.08.2016", "10:24");
+            db.addTask(11, 42, 36, 21, "12.08.2016", "14:04");
+            db.addTask(25, 31, 52, 66, "16.08.2016", "20:34");
+            db.addTask(32, 55, 15, 22, "16.08.2016", "21:20");
+            db.addTask(41, 52, 32, 33, "17.08.2016", "10:00");
+            db.addTask(22, 35, 18, 44, "17.08.2016", "10:24");
         }
     }
 
@@ -67,9 +67,9 @@ public class Logistica extends AppCompatActivity
     {
         ArrayList<Driver> allDrivers=db.getAllDriver();
         if (allDrivers.size()==0) {
-            db.addDriver("Peter", 0, 0);
-            db.addDriver("Wolfgang", 2, 8);
-            db.addDriver("Sabine", 37, 0);
+            db.addDriver("Peter", 10, 20);
+            db.addDriver("Wolfgang", 22, 38);
+            db.addDriver("Sabine", 37, 30);
         }
     }
 
