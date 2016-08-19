@@ -1,12 +1,11 @@
 package com.example.kristine.logistica;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,12 +25,9 @@ public class Logistica extends AppCompatActivity
     private EditText driverID;
     private Button input;
     private Button manager;
-    private AlertDialog.Builder builder;
-    private EditText inputID;
+
     private MyDatabaseAdapter db;
 
-
-    //Probleme: App stürzt ab beim zweiten  Versuch daten einzugeben
 
 
     @Override

@@ -46,9 +46,10 @@ public class DriverActivity extends AppCompatActivity
 
     private void initUI()
     {
+        id = (TextView) findViewById(R.id.id);
         source = (TextView) findViewById(R.id.source);
         target = (TextView) findViewById(R.id.target);
-        id = (TextView) findViewById(R.id.id);
+
         button = (Button) findViewById(R.id.button);
         layout = (RelativeLayout) findViewById(R.id.layout);
     }
