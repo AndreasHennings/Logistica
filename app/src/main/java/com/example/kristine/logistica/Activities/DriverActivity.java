@@ -1,7 +1,5 @@
 package com.example.kristine.logistica.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
-import android.widget.LinearLayout;
+
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +81,7 @@ public class DriverActivity extends AppCompatActivity
         currentDriver.setY_pos(task.getTarget_y());
         currentDriver.setX_pos(task.getTarget_x());
         db.updateDriver(currentDriver);
+        button.setText("THANK YOU FOR DELIVERY!");
     }
 
     private void driverAcceptsTask()
@@ -90,6 +89,7 @@ public class DriverActivity extends AppCompatActivity
         layout.setBackgroundColor(getResources().getColor(R.color.in_process));
         task.updateStatus();
         db.updateTask(task);
+        button.setText("CLICK WHEN DELIVERED");
     }
 
     private void initComponents()
@@ -117,12 +117,20 @@ public class DriverActivity extends AppCompatActivity
             }
         }
         task = db.getNearestTask(currentDriver);
-        showTask();
+        if (task==null)
+        {
+            button.setText("SORRY NO MORE TASKS!");
+            button.setEnabled(false);
+        }
+        else
+        {
+            showTask();
+        }
     }
 
     private void showTask()
     {
-        id.setText("Task-ID: " + task.getId());
+        id.setText("Task-ID: " + task.getId() + " Task-Status: "+task.getStatus());
         source.setText("Pickup-adress: X:" + task.getSource_x() + "  Y:" + task.getSource_y());
         target.setText("Delivery-adress: X:" + task.getTarget_x() + "  Y:" + task.getTarget_y());
     }
@@ -146,9 +154,12 @@ public class DriverActivity extends AppCompatActivity
                 task = db.getNearestTask(currentDriver);
                 layout.setBackgroundColor(getResources().getColor(R.color.to_pick_up));
                 button.setEnabled(true);
+                button.setText("CLICK TO ACCEPT");
             }
 
-        } else
+        }
+
+        else
         {
             Toast toast = Toast.makeText(DriverActivity.this, "You haven´t finished your task!", Toast.LENGTH_LONG);
             toast.show();

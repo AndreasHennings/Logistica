@@ -49,8 +49,9 @@ public class Task {
     }
 
     public void updateStatus(){
-        if(status<2){
-            status++;
+        if(this.getStatus()<2)
+        {
+            this.status++;
         }
     }
 

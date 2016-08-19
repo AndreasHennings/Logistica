@@ -59,7 +59,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONTINUE"
+        android:text="CLICK TO ACCEPT"
         android:id="@+id/button"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/white"
